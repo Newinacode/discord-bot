@@ -6,7 +6,7 @@ from discord.member import Member
 import requests
 from discord.utils import get
 
-
+domain = "http://127.0.0.1:8000"
 
 rank_detail = {
     1:{'name':'प्यूठ','url':"https://www.nepalarmy.mil.np/upload/images/pages/ranks/lance_corporal.png"},
@@ -40,7 +40,7 @@ class Rank(commands.Cog):
     async def on_ready(self): 
         for guild in self.client.guilds: 
             for member in guild.members:
-                url = 'http://127.0.0.1:8000/create/'
+                url = f'{domain}/create/'
                 payload = {
                     "userID":int(member.id),
                     "rank":0,
@@ -55,7 +55,7 @@ class Rank(commands.Cog):
     @commands.command()
     async def myrank(self,ctx):
         print("Not working")
-        url = f'http://127.0.0.1:8000/{ctx.author.id}'
+        url = f'{domain}/{ctx.author.id}'
         print(url)  
 
         x = requests.get(url)
@@ -82,7 +82,7 @@ class Rank(commands.Cog):
             await ctx.send(f"Sorry {member} cannot promote yourself.")
             return
 
-        url = 'http://127.0.0.1:8000/update/'
+        url = f'{domain}/update/'
         payload = {
             "request_user":str(ctx.author.id),
             "base_user":str(member.id), 
@@ -108,7 +108,7 @@ class Rank(commands.Cog):
             await ctx.send(f"Sorry {member} you cannot demote yourself.")
             return
 
-        url = 'http://127.0.0.1:8000/update/'
+        url = f'{domain}/update/'
         payload = {
             "request_user":str(ctx.author.id),
             "base_user":str(member.id), 
@@ -137,7 +137,7 @@ class Rank(commands.Cog):
 #display all member in army
     @commands.command()
     async def army(self,ctx):
-        url = 'http://127.0.0.1:8000/list/'
+        url = f'{domain}/list/'
         x = requests.get(url)
         content = x.json()
         embed = discord.Embed(title="Anka Member", 

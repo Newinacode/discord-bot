@@ -2,6 +2,8 @@ import discord
 from discord.ext import commands
 import requests
 
+domain = "http://127.0.0.1:8000"
+
 class User(commands.Cog):
     def __init__(self,client):
         self.client = client
@@ -9,7 +11,7 @@ class User(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_join(self,member):
-        url = 'http://127.0.0.1:8000/create/'
+        url = f'{domain}/create/'
         payload = {
             "userID":int(member.id),
             "rank":0,
@@ -20,7 +22,7 @@ class User(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self,member): 
-        url='http://127.0.0.1:8000/delete/{member.id}'
+        url=f'{domain}/delete/{member.id}'
         x = requests.delete(url)
 
 

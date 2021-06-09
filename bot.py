@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import dotenv
 
-
+domain = "http://127.0.0.1:8000"
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -58,7 +58,7 @@ async def on_voice_state_update(member,before,after):
         in_min = int(elapsedTime.total_seconds())//60
         # if in_min>5:
             # request to add xp:
-        url = f'http://127.0.0.1:8000/{member.id}/xp/'
+        url = f'{domain}/{member.id}/xp/'
         payload = { 
             "xp":in_min*100,
         }
@@ -92,7 +92,7 @@ async def on_message(message):
         time_diff = datetime.now() - m
         in_min = int(time_diff.total_seconds())//60
         if in_min > 2:
-            url = f'http://127.0.0.1:8000/{message.author.id}/xp/'
+            url = f'{domain}/{message.author.id}/xp/'
             payload = { 
                 "xp":in_min*10,
             }
