@@ -12,39 +12,57 @@ domain = "http://127.0.0.1:8000"
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY stored in .env
-dotenv_file = os.path.join(BASE_DIR, ".env")
-if os.path.isfile(dotenv_file):
-    dotenv.load_dotenv(dotenv_file)
+# dotenv_file = os.path.join(BASE_DIR, ".env")
+# if os.path.isfile(dotenv_file):
+#     dotenv.load_dotenv(dotenv_file)
 
 
-
+# allowing all intents of discord. So, we can access messages, voice channel, and members
+# of guilds
 intents = discord.Intents().all()
-print(os.environ['SECRET_KEY'])
-token = os.environ['SECRET_KEY']
+# token = os.environ['SECRET_KEY']
 client = commands.Bot(command_prefix='!',intents=intents)
 
-
+#dic store the time when user enter to voice channel
 time_xp = {
-
+# 'UserId':datatime_object,
 }
 
+# dic to store userID and lastest datetime User send message
 last_msg_time = {
 
 }
 
-
+# setting cogs file(extensions)
 for filename in os.listdir('./cogs'): 
     if filename.endswith('.py'):
         client.load_extension(f'cogs.{filename[:-3]}')
 
-
+# on_ready function is called when bot is ready as it is and event.
 @client.event
 async def on_ready(): 
     pass
             
 
 
+# on_command_error event is called when unristegered command  is enterned
+@client.event
+async def on_command_error(ctx,error): 
+    if isinstance(error,commands.CommandNotFound): 
+        await ctx.send("Invaild Command used.")
 
+
+
+# This event is called when user join voice channel or leave voice channel
+# before and after the state object
+
+# When user join discord voice channel 
+    # before False
+    # after True
+
+# When user left dicord voice channel
+    #before True
+    #after False
 
 @client.event
 async def on_voice_state_update(member,before,after):
@@ -82,7 +100,7 @@ async def on_voice_state_update(member,before,after):
         #     await send(embed=embed)
 
 
-    
+# this event is called whenever user send messages in text channels
 @client.event
 async def on_message(message):
     try:
@@ -108,17 +126,7 @@ async def on_message(message):
 # before.channel
 
     
-client.run(token)
-
-# When user join discord voice channel 
-    # before False
-    # after True
-
-# When user left dicord voice channel
-    #before True
-    #after False
-
-
+client.run('ODQ5MTEzMzEzMDIzMjMwMDEy.YLWcZQ.HkAAQzwnI0USEVLKqOgsQVNLj-U')
 
 
 

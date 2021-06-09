@@ -1,10 +1,8 @@
 import discord
 from discord.ext import commands
-
 import os
-from discord.member import Member
 import requests
-from discord.utils import get
+
 
 domain = "http://127.0.0.1:8000"
 
@@ -88,18 +86,25 @@ class Rank(commands.Cog):
             "base_user":str(member.id), 
             "task":"promote"
         }
+
         x = requests.post(url,data=payload)
-        content = x.json()
-        rank = content['rank']
-        embed = discord.Embed(
-            title = "Promotion",
-            color= discord.Color.green())
-        embed.set_author(name=f'{member}',icon_url=member.avatar_url)
+        print(x.status_code)
+        if x.status_code == 200:
+            content = x.json()
+            rank = content['rank']
+            embed = discord.Embed(
+                title = "Promotion",
+                color= discord.Color.green())
+            embed.set_author(name=f'{member}',icon_url=member.avatar_url)
+            
+            embed.set_thumbnail(url=rank_detail[rank]["url"])
+            
+            
+            await ctx.send(embed=embed)
         
-        embed.set_thumbnail(url=rank_detail[rank]["url"])
-        
-        
-        await ctx.send(embed=embed)
+        elif x.status_code == 401: 
+            await ctx.send("You are not eligible to used this command")
+            
 
 # Demote user Rank
     @commands.command()
@@ -115,17 +120,20 @@ class Rank(commands.Cog):
             "task":"demote"
         }
         x = requests.post(url,data=payload)
-        content = x.json()
-        rank = content['rank']
-        embed = discord.Embed(
-            title = "Demotion",
-            color= discord.Color.red())
-        embed.set_author(name=f'{member}',icon_url=member.avatar_url)
-        
-        embed.set_thumbnail(url=rank_detail[rank]["url"])
-        
-        
-        await ctx.send(embed=embed)
+        if x.status_code == 200:
+            content = x.json()
+            rank = content['rank']
+            embed = discord.Embed(
+                title = "Demotion",
+                color= discord.Color.red())
+            embed.set_author(name=f'{member}',icon_url=member.avatar_url)
+            
+            embed.set_thumbnail(url=rank_detail[rank]["url"])
+            
+            
+            await ctx.send(embed=embed)
+        elif x.status_code == 401: 
+            await ctx.send("You are not eligible to used this command")
 
 
 
@@ -157,6 +165,13 @@ class Rank(commands.Cog):
 
 def setup(client): 
     client.add_cog(Rank(client))
+
+
+
+
+
+
+
 
 
 
