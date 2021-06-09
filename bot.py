@@ -12,15 +12,16 @@ domain = "http://127.0.0.1:8000"
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECRET_KEY stored in .env
-# dotenv_file = os.path.join(BASE_DIR, ".env")
-# if os.path.isfile(dotenv_file):
-#     dotenv.load_dotenv(dotenv_file)
+dotenv_file = os.path.join(os.getcwd(), ".env")
+print(dotenv_file)
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
 
 
 # allowing all intents of discord. So, we can access messages, voice channel, and members
 # of guilds
 intents = discord.Intents().all()
-# token = os.environ['SECRET_KEY']
+token = os.environ['SECRET_KEY']
 client = commands.Bot(command_prefix='!',intents=intents)
 
 #dic store the time when user enter to voice channel
@@ -126,7 +127,7 @@ async def on_message(message):
 # before.channel
 
     
-client.run('ODQ5MTEzMzEzMDIzMjMwMDEy.YLWcZQ.HkAAQzwnI0USEVLKqOgsQVNLj-U')
+client.run(token)
 
 
 
