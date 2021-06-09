@@ -15,6 +15,8 @@ class User(commands.Cog):
             "rank":0,
             "xp":0
         }
+        x = requests.post(url=url,data=payload)
+
 
     @commands.Cog.listener()
     async def on_member_remove(self,member): 

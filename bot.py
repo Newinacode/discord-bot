@@ -3,10 +3,26 @@ from discord.ext import commands
 import os
 from datetime import datetime
 import requests
+import os
+from pathlib import Path
+import dotenv
+
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SECRET_KEY stored in .env
+dotenv_file = os.path.join(BASE_DIR, ".env")
+if os.path.isfile(dotenv_file):
+    dotenv.load_dotenv(dotenv_file)
+
+
 
 intents = discord.Intents().all()
-token = 'ODQ5MTEzMzEzMDIzMjMwMDEy.YLWcZQ.AEcz4TOX1ieZnHjgf13gsRRZC2c'
+print(os.environ['SECRET_KEY'])
+token = os.environ['SECRET_KEY']
 client = commands.Bot(command_prefix='!',intents=intents)
+
 
 time_xp = {
 
